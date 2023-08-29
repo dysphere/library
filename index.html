@@ -9,6 +9,24 @@
 </head>
 <body>
     <div class="container"></div>
-    <button>New Book</button>
+    <dialog id="new_book">
+        <form method="dialog" id="bookForm">
+            <label for="title">title</label>
+            <input type="text" name="title" id="title">
+            <label for="author">author</label>
+            <input type="text" name="author" id="author">
+            <label for="pages">pages</label>
+            <input type="number" name="pages" id="pages">
+            <label for="read">read?</label>
+            <select name="read" id="read">
+                <option value="none" selected disabled hidden>choose</option>
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+            <button id="cancel">Cancel</button>
+            <button type="submit" id="confirm" form="bookForm">Confirm</button>
+        </form>
+    </dialog>
+    <button id="new">New Book</button>
 </body>
 </html>
