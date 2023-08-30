@@ -34,6 +34,7 @@ function BookDisplay() {
     const removeButton = document.createElement("button");
     removeButton.textContent = "remove"
     removeButton.setAttribute("class", "remove");
+    removeButton.setAttribute("type", "button");
 
     for (let i = 0; i < myLibrary.length; i++) {
         const row = document.createElement('tr');
@@ -47,12 +48,27 @@ function BookDisplay() {
         const removeButton = document.createElement("button");
         removeButton.textContent = "remove"
         removeButton.setAttribute("class", "remove");
+        removeButton.setAttribute("type", "button");
+        removeButton.dataset.index = i
 
         row.appendChild(removeButton);
         tbody.appendChild(row);
         table.appendChild(tbody);
+
     }
 
+    let removes = document.querySelectorAll(".remove");
+    removes.forEach(function (i) {
+        i.addEventListener("click", () => {
+            let body = document.querySelector("tbody");
+            body.deleteRow(i.dataset.index);
+            myLibrary.splice(i.dataset.index, 1);
+            let newRemoves = document.querySelectorAll(".remove");
+            for (let i = 0; i < newRemoves.length; i++) {
+                newRemoves[i].dataset.index = i
+            }
+        });
+    });
 
     const titles = document.querySelectorAll(".title");
     for (let i = 0; i < titles.length; i++) {
@@ -89,6 +105,7 @@ function updateBookDisplay(myLibrary) {
     const removeButton = document.createElement("button");
         removeButton.textContent = "remove"
         removeButton.setAttribute("class", "remove");
+        removeButton.setAttribute("type", "button");
 
         row.appendChild(removeButton);
 
@@ -107,6 +124,20 @@ function updateBookDisplay(myLibrary) {
     const readings = document.querySelectorAll(".read");
     readings[lastIndex].textContent = last.read
 
+    removeButton.dataset.index = lastIndex
+
+    let removes = document.querySelectorAll(".remove");
+    removes[lastIndex].addEventListener("click", () =>
+    {
+        let body = document.querySelector("tbody");
+        body.deleteRow(removes[lastIndex].dataset.index);
+        myLibrary.splice(removes[lastIndex].dataset.index, 1);
+        let newRemoves = document.querySelectorAll(".remove");
+        for (let i = 0; i < newRemoves.length; i++) {
+            newRemoves[i].dataset.index = i
+        }
+    })
+
 }
 
 const newButton = document.querySelector("#new");
@@ -118,8 +149,6 @@ const title = newDialog.querySelector("#title");
 const author = newDialog.querySelector("#author");
 const pages = newDialog.querySelector("#pages");
 const read = newDialog.querySelector("#read");
-
-const removes = document.querySelector(".remove");
 
 newButton.addEventListener("click", () => {
     newDialog.showModal();
@@ -147,6 +176,8 @@ newData.addEventListener("click", (e) => {
     let newBook = new Book(newData.dataset.title, newData.dataset.author,
         newData.dataset.pages, newData.dataset.read);
     addBooktoLibrary(newBook);
+
+    newData.dataset.index = myLibrary.length - 1
     updateBookDisplay(myLibrary);
     newDialog.close();
 })
