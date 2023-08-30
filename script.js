@@ -172,9 +172,10 @@ read.addEventListener("change", (e) => {
 
 newData.addEventListener("click", (e) => {
     e.preventDefault();
+    let bool = (newData.dataset.read == "true");
 
     let newBook = new Book(newData.dataset.title, newData.dataset.author,
-        newData.dataset.pages, newData.dataset.read);
+        newData.dataset.pages, bool);
     addBooktoLibrary(newBook);
 
     newData.dataset.index = myLibrary.length - 1
