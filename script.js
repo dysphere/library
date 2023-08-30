@@ -180,6 +180,10 @@ newData.addEventListener("click", (e) => {
     newData.dataset.index = myLibrary.length - 1
     updateBookDisplay(myLibrary);
     newDialog.close();
+    title.value = "";
+    author.value = "";
+    pages.value = "";
+    read.value = "none";
 })
 
 quitButton.addEventListener("click", () => {
