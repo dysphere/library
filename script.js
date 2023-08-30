@@ -31,16 +31,28 @@ function BookDisplay() {
     container.appendChild(table);
     const tbody = document.createElement('tbody');
 
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "remove"
+    removeButton.setAttribute("class", "remove");
+
     for (let i = 0; i < myLibrary.length; i++) {
         const row = document.createElement('tr');
         for (let i = 0; i < 4; i++) {
         const cell = document.createElement('td');
         cell.setAttribute("class", headings[i]);
+
         row.appendChild(cell);
         }
+
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "remove"
+        removeButton.setAttribute("class", "remove");
+
+        row.appendChild(removeButton);
         tbody.appendChild(row);
         table.appendChild(tbody);
     }
+
 
     const titles = document.querySelectorAll(".title");
     for (let i = 0; i < titles.length; i++) {
@@ -74,6 +86,12 @@ function updateBookDisplay(myLibrary) {
         row.appendChild(cell);
     }
 
+    const removeButton = document.createElement("button");
+        removeButton.textContent = "remove"
+        removeButton.setAttribute("class", "remove");
+
+        row.appendChild(removeButton);
+
     body.appendChild(row);
     table.appendChild(body);
 
@@ -100,6 +118,8 @@ const title = newDialog.querySelector("#title");
 const author = newDialog.querySelector("#author");
 const pages = newDialog.querySelector("#pages");
 const read = newDialog.querySelector("#read");
+
+const removes = document.querySelector(".remove");
 
 newButton.addEventListener("click", () => {
     newDialog.showModal();
