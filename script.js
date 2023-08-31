@@ -12,6 +12,15 @@ function Book(title, author, pages, read) {
     }
 }
 
+Book.prototype.toggleRead = function() {
+    if (this.read == true) {
+        this.read = false;
+    }
+    else {
+        this.read = true;
+    }
+}
+
 function addBooktoLibrary(Book) {
 myLibrary.push(Book);
 }
@@ -31,11 +40,6 @@ function BookDisplay() {
     container.appendChild(table);
     const tbody = document.createElement('tbody');
 
-    const removeButton = document.createElement("button");
-    removeButton.textContent = "remove"
-    removeButton.setAttribute("class", "remove");
-    removeButton.setAttribute("type", "button");
-
     for (let i = 0; i < myLibrary.length; i++) {
         const row = document.createElement('tr');
         for (let i = 0; i < 4; i++) {
@@ -51,7 +55,14 @@ function BookDisplay() {
         removeButton.setAttribute("type", "button");
         removeButton.dataset.index = i
 
+        const toggleButton = document.createElement("button");
+        toggleButton.textContent = "toggle read"
+        toggleButton.setAttribute("class", "toggle");
+        toggleButton.setAttribute("type", "button");
+        toggleButton.dataset.index = i
+
         row.appendChild(removeButton);
+        row.appendChild(toggleButton);
         tbody.appendChild(row);
         table.appendChild(tbody);
 
@@ -67,8 +78,22 @@ function BookDisplay() {
             for (let i = 0; i < newRemoves.length; i++) {
                 newRemoves[i].dataset.index = i
             }
+            let newToggles = document.querySelectorAll(".toggle");
+            for (let i = 0; i < newToggles.length; i++) {
+                newToggles[i].dataset.index = i
+            }
         });
     });
+
+    let toggles = document.querySelectorAll(".toggle");
+    toggles.forEach(function (btn) {
+        btn.addEventListener("click", () => {
+            let readStatus = document.querySelectorAll(".read");
+            myLibrary[btn.dataset.index].toggleRead()
+            readStatus[btn.dataset.index].textContent = myLibrary[btn.dataset.index].read
+
+        })
+    })
 
     const titles = document.querySelectorAll(".title");
     for (let i = 0; i < titles.length; i++) {
@@ -103,11 +128,17 @@ function updateBookDisplay(myLibrary) {
     }
 
     const removeButton = document.createElement("button");
-        removeButton.textContent = "remove"
-        removeButton.setAttribute("class", "remove");
-        removeButton.setAttribute("type", "button");
+    removeButton.textContent = "remove"
+    removeButton.setAttribute("class", "remove");
+    removeButton.setAttribute("type", "button");
 
-        row.appendChild(removeButton);
+    const toggleButton = document.createElement("button");
+    toggleButton.textContent = "toggle read"
+    toggleButton.setAttribute("class", "toggle");
+    toggleButton.setAttribute("type", "button");
+
+    row.appendChild(removeButton);
+    row.appendChild(toggleButton);
 
     body.appendChild(row);
     table.appendChild(body);
@@ -125,6 +156,7 @@ function updateBookDisplay(myLibrary) {
     readings[lastIndex].textContent = last.read
 
     removeButton.dataset.index = lastIndex
+    toggleButton.dataset.index = lastIndex
 
     let removes = document.querySelectorAll(".remove");
     removes[lastIndex].addEventListener("click", () =>
@@ -136,7 +168,19 @@ function updateBookDisplay(myLibrary) {
         for (let i = 0; i < newRemoves.length; i++) {
             newRemoves[i].dataset.index = i
         }
+        let newToggles = document.querySelectorAll(".toggle");
+        for (let i = 0; i < newToggles.length; i++) {
+            newToggles[i].dataset.index = i
+        }
     })
+
+    let toggles = document.querySelectorAll(".toggle");
+    toggles[lastIndex].addEventListener("click", () => {
+        let readStatus = document.querySelectorAll(".read");
+            myLibrary[toggles[lastIndex].dataset.index].toggleRead()
+            readStatus[toggles[lastIndex].dataset.index].textContent = myLibrary[toggles[lastIndex].dataset.index].read
+    })
+
 
 }
 
@@ -193,7 +237,7 @@ quitButton.addEventListener("click", () => {
 
 
 const HP = new Book("Harry Potter", "JKR", 372, true)
-const Ani = new Book("Ani", "KA", 100, true)
+const Ani = new Book("Ani", "KA", 100, false)
 addBooktoLibrary(HP)
 addBooktoLibrary(Ani)
 BookDisplay()
