@@ -1,23 +1,26 @@
 let myLibrary = [];
 const headings = ["title", "author", "pages", "read"];
 
-function Book(title, author, pages, read) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.read = read
-    this.info = function() {
-        return `${this.title} by ${this.author}, ${this.pages} pages,
-        ${this.read}`
+class Book {
+    constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
     }
-}
 
-Book.prototype.toggleRead = function() {
-    if (this.read == true) {
-        this.read = false;
+    info = () => {
+        return `${this.title} by ${this.author}, ${this.pages} pages,
+        ${this.read}`;
     }
-    else {
-        this.read = true;
+
+    toggleRead = () => {
+        if (this.read == true) {
+            this.read = false;
+        }
+        else {
+            this.read = true;
+        }
     }
 }
 
